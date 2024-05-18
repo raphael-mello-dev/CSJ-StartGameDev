@@ -9,7 +9,12 @@ public class PlayerMovement : PlayerController
 
     private void FixedUpdate()
     {
+        OnMovement();
+    }
+
+    private void OnMovement()
+    {
         movement = inputManagerInstance.movement;
-        transform.Translate(new Vector3(movement.x, movement.y, 0) * Time.fixedDeltaTime * speed);
+        transform.position += new Vector3(movement.x, movement.y, 0) * Time.fixedDeltaTime * speed;
     }
 }
