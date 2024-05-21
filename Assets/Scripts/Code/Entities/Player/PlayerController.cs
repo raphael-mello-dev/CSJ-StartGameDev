@@ -6,9 +6,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     protected PlayerInputManager inputManagerInstance;
+    protected PlayerAnimations playerAnimationsInstance;
 
-    private void Start()
+    private void Awake()
     {
         inputManagerInstance = new PlayerInputManager();
+        playerAnimationsInstance = new PlayerAnimations(GetComponent<Animator>());
     }
 }

@@ -16,5 +16,10 @@ public class PlayerMovement : PlayerController
     {
         movement = inputManagerInstance.movement;
         transform.position += new Vector3(movement.x, movement.y, 0) * Time.fixedDeltaTime * speed;
+
+        if (movement.sqrMagnitude > 0)
+            playerAnimationsInstance.SwitchAnimation(PlayerAnimations.Animations.WALK);
+        else
+            playerAnimationsInstance.SwitchAnimation(PlayerAnimations.Animations.IDLE);
     }
 }
