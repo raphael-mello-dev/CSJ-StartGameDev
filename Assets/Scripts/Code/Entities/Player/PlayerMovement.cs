@@ -19,15 +19,15 @@ public class PlayerMovement : PlayerController
         if (movement.sqrMagnitude > 0 && inputManagerInstance.isRunning < 0.5f)
         {
             speed = 3;
-            playerAnimationsInstance.SwitchAnimation(PlayerAnimations.Animations.WALK);
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.WALK);
         }
         else if (movement.sqrMagnitude > 0 && inputManagerInstance.isRunning > 0.5f)
         {
             speed = 7;
-            playerAnimationsInstance.SwitchAnimation(PlayerAnimations.Animations.RUN);
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.RUN);
         }
         else
-            playerAnimationsInstance.SwitchAnimation(PlayerAnimations.Animations.IDLE);
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.IDLE);
 
         transform.position += new Vector3(movement.x, movement.y, 0) * Time.fixedDeltaTime * speed;
     }

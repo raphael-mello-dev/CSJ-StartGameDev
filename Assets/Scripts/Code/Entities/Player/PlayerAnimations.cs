@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class PlayerAnimations
 {
-    public enum Animations
+    public enum MoveAnimations
     {
         IDLE = 0,
         WALK = 1,
-        RUN = 2,
-        DOGDE = 3
+        RUN = 2
     }
 
     private Animator playerAnimator;
@@ -17,8 +16,14 @@ public class PlayerAnimations
         playerAnimator = reference;
     }
 
-    public void SwitchAnimation(Animations currentAnimation)
+    public void SwitchMoveAnimations(MoveAnimations currentAnimation)
     {
         playerAnimator.SetInteger("Transition", (int) currentAnimation);
+    }
+
+    public void PlayDodgeAnimation()
+    {
+        playerAnimator.ResetTrigger("Dodge");
+        playerAnimator.SetTrigger("Dodge");
     }
 }

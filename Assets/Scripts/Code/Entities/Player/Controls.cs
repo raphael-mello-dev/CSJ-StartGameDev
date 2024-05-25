@@ -44,6 +44,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""679ebdc2-88ea-4ea8-9e3f-b4169fda9318"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Running"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58663da2-c700-408e-85f7-9c99e877015e"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Running = m_Gameplay.FindAction("Running", throwIfNotFound: true);
+        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +206,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Running;
+    private readonly InputAction m_Gameplay_Dodge;
     public struct GameplayActions
     {
         private @Controls m_Wrapper;
         public GameplayActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Running => m_Wrapper.m_Gameplay_Running;
+        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +229,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Running.started += instance.OnRunning;
             @Running.performed += instance.OnRunning;
             @Running.canceled += instance.OnRunning;
+            @Dodge.started += instance.OnDodge;
+            @Dodge.performed += instance.OnDodge;
+            @Dodge.canceled += instance.OnDodge;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -216,6 +242,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Running.started -= instance.OnRunning;
             @Running.performed -= instance.OnRunning;
             @Running.canceled -= instance.OnRunning;
+            @Dodge.started -= instance.OnDodge;
+            @Dodge.performed -= instance.OnDodge;
+            @Dodge.canceled -= instance.OnDodge;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -237,5 +266,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRunning(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }
