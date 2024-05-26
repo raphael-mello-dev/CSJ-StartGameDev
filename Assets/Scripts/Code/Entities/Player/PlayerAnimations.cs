@@ -6,7 +6,8 @@ public class PlayerAnimations
     {
         IDLE = 0,
         WALK = 1,
-        RUN = 2
+        RUN = 2,
+        DODGE = 3
     }
 
     private Animator playerAnimator;
@@ -19,11 +20,5 @@ public class PlayerAnimations
     public void SwitchMoveAnimations(MoveAnimations currentAnimation)
     {
         playerAnimator.SetInteger("Transition", (int) currentAnimation);
-    }
-
-    public void PlayDodgeAnimation()
-    {
-        playerAnimator.ResetTrigger("Dodge");
-        playerAnimator.SetTrigger("Dodge");
     }
 }

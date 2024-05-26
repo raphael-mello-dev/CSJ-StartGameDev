@@ -4,8 +4,15 @@ public class PlayerMovement : PlayerController
 {
     private Vector2 movement;
 
-    [Range(1f, 8f)]
+    [Range(1f, 10f)]
     [SerializeField] private int speed;
+
+    private PlayerDodge playerDodge;
+
+    private void Start()
+    {
+        playerDodge = GetComponent<PlayerDodge>();
+    }
 
     private void FixedUpdate()
     {
@@ -15,11 +22,16 @@ public class PlayerMovement : PlayerController
     private void OnMovement()
     {
         movement = inputManagerInstance.movement;
+        
 
-        if (movement.sqrMagnitude > 0 && inputManagerInstance.isRunning < 0.5f)
+        if (movement.sqrMagnitude == 0)
         {
-            speed = 3;
-            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.WALK);
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.IDLE);
+        }
+        else if (movement.sqrMagnitude > 0 && playerDodge.IsDodging)
+        {
+            speed = 8;
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.DODGE);
         }
         else if (movement.sqrMagnitude > 0 && inputManagerInstance.isRunning > 0.5f)
         {
@@ -27,7 +39,10 @@ public class PlayerMovement : PlayerController
             playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.RUN);
         }
         else
-            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.IDLE);
+        {
+            speed = 3;
+            playerAnimationsInstance.SwitchMoveAnimations(PlayerAnimations.MoveAnimations.WALK);
+        }
 
         transform.position += new Vector3(movement.x, movement.y, 0) * Time.fixedDeltaTime * speed;
     }
